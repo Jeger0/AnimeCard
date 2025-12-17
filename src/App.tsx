@@ -1,8 +1,9 @@
 import "./App.css";
 import AnimeCard from "./assets/components/AnimeCard";
+import { useState } from "react";
 
 function App() {
-  const animeList = [
+  const [animeList, setAnimeList] = useState([
     {
       id: 1,
       title: "Naruto",
@@ -18,7 +19,7 @@ function App() {
       title: "One Piece",
       description: "Pirates searching for the ultimate treasure",
     },
-  ];
+  ]);
 
   return (
     <div>
