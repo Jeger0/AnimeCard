@@ -1,33 +1,31 @@
 import "./App.css";
 import AnimeCard from "./assets/components/AnimeCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+type Anime = {
+  mal_id: number;
+  title: string;
+  synopsis: string;
+};
 
 function App() {
-  const [animeList, setAnimeList] = useState([
-    {
-      id: 1,
-      title: "Naruto",
-      description: "A ninja who wants to become Hokage",
-    },
-    {
-      id: 2,
-      title: "Attack on Titan",
-      description: "Humanity fights against Titans",
-    },
-    {
-      id: 3,
-      title: "One Piece",
-      description: "Pirates searching for the ultimate treasure",
-    },
-  ]);
+  const [animeList, setAnimeList] = useState<Anime[]>([]);
+
+  useEffect(() => {
+    fetch("https://api.jikan.moe/v4/anime")
+      .then((res) => res.json())
+      .then((data) => {
+        setAnimeList(data.data);
+      });
+  }, []);
 
   return (
     <div>
       {animeList.map((anime) => (
         <AnimeCard
-          key={anime.id}
+          key={anime.mal_id}
           title={anime.title}
-          description={anime.description}
+          synopsis={anime.synopsis}
         />
       ))}
     </div>
