@@ -6,6 +6,11 @@ type Anime = {
   mal_id: number;
   title: string;
   synopsis: string;
+  images: {
+    jpg: {
+      image_url: string;
+    };
+  };
 };
 
 function App() {
@@ -40,6 +45,7 @@ function App() {
             key={anime.mal_id}
             title={anime.title}
             synopsis={anime.synopsis}
+            imageUrl={anime.images.jpg.image_url}
           />
         ))
       )}
