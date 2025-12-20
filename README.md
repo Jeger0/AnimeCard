@@ -14,5 +14,5 @@ A simple anime discovery app built with React, TypeScript, Tailwind CSS.
 - REST API
 
 ## Run locally
-npm install
-npm run dev
+- npm install
+- npm run dev
