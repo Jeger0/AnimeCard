@@ -1,9 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* Define custom properties here using CSS variables */
-  --font-display: "Satoshi", "sans-serif";
-  --color-avocado-500: oklch(0.84 0.18 117.33);
+  
 }
 
     
