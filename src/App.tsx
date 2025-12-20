@@ -1,4 +1,3 @@
-import "./App.css";
 import AnimeCard from "./assets/components/AnimeCard";
 import { useState, useEffect } from "react";
 
@@ -34,20 +33,22 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       {error && <p>{error}</p>}
 
       {loading ? (
         <p>Loading...</p>
       ) : (
-        animeList.map((anime) => (
-          <AnimeCard
-            key={anime.mal_id}
-            title={anime.title}
-            synopsis={anime.synopsis}
-            imageUrl={anime.images.jpg.image_url}
-          />
-        ))
+        <div className="">
+          {animeList.map((anime) => (
+            <AnimeCard
+              key={anime.mal_id}
+              title={anime.title}
+              synopsis={anime.synopsis}
+              imageUrl={anime.images.jpg.image_url}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
