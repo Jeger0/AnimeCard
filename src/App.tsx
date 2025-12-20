@@ -17,10 +17,11 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [animeList, setAnimeList] = useState<Anime[]>([]);
 
+  /* Fetches data from the API */
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://api.jikan.moe/v4/anime");
+        const response = await fetch("https://api.jikan.moe/v4/anime?limit=9");
         const data = await response.json();
         setAnimeList(data.data);
       } catch (error) {
@@ -32,6 +33,7 @@ function App() {
     fetchData();
   }, []);
 
+  /* Returns error, loading or the cards if the data has been fetched*/
   return (
     <div className="p-4">
       {error && <p>{error}</p>}
