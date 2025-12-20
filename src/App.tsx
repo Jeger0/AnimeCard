@@ -16,6 +16,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [animeList, setAnimeList] = useState<Anime[]>([]);
+  const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
   /* Fetches data from the API */
   useEffect(() => {
@@ -48,8 +49,33 @@ function App() {
               title={anime.title}
               synopsis={anime.synopsis}
               imageUrl={anime.images.jpg.image_url}
+              onClick={() => setSelectedAnime(anime)}
             />
           ))}
+        </div>
+      )}
+      {selectedAnime && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-lg w-full overflow-hidden">
+            <img
+              src={selectedAnime.images.jpg.image_url}
+              alt={selectedAnime.title}
+              className="w-full h-64 object-cover"
+            />
+
+            <div className="p-4">
+              <h2 className="text-xl font-bold mb-2">{selectedAnime.title}</h2>
+
+              <p className="text-sm mb-4">{selectedAnime.synopsis}</p>
+
+              <button
+                onClick={() => setSelectedAnime(null)}
+                className="mt-2 px-4 py-2 bg-black text-white rounded hover:bg-white"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
