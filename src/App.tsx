@@ -39,7 +39,7 @@ function App() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className="">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {animeList.map((anime) => (
             <AnimeCard
               key={anime.mal_id}
