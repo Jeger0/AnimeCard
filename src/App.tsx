@@ -1,4 +1,5 @@
 import AnimeCard from "./assets/components/AnimeCard";
+import ThemeToggle from "./assets/components/ThemeToggle";
 import { useState, useEffect } from "react";
 
 type Anime = {
@@ -17,7 +18,22 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
-  const [dark, setDark] = useState(false);
+
+  const [dark, setDark] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (dark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [dark]);
 
   /* Fetches data from the API */
   useEffect(() => {
@@ -37,7 +53,9 @@ function App() {
 
   /* Returns error, loading or the cards if the data has been fetched*/
   return (
-    <div className="p-4">
+    <div className="p-4 bg-white dark:bg-gray-800 transition">
+      <ThemeToggle dark={dark} onToggle={() => setDark(!dark)} />
+
       {error && <p>{error}</p>}
 
       {loading ? (
@@ -56,8 +74,8 @@ function App() {
         </div>
       )}
       {selectedAnime && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-lg w-full overflow-hidden">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 ">
+          <div className="bg-white rounded-xl max-w-lg w-full overflow-hidden dark:bg-gray-800 dark:text-white">
             <img
               src={selectedAnime.images.jpg.image_url}
               alt={selectedAnime.title}
