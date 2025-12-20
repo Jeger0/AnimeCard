@@ -18,18 +18,18 @@ function App() {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
 
   useEffect(() => {
-    setLoading(true);
-    fetch("https://api.jikan.moe/v4/anime")
-      .then((res) => res.json())
-      .then((data) => {
+    async function fetchData() {
+      try {
+        const response = await fetch("https://api.jikan.moe/v4/anime");
+        const data = await response.json();
         setAnimeList(data.data);
-      })
-      .catch((err) => {
-        setError(err.message);
-      })
-      .finally(() => {
+      } catch (error) {
+        setError("Failed to fetch data.");
+      } finally {
         setLoading(false);
-      });
+      }
+    }
+    fetchData();
   }, []);
 
   return (
