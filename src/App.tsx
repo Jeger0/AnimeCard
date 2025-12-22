@@ -16,12 +16,30 @@ type Anime = {
 function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
+  /* Manages favorite anime IDs and persistence */
+  const [favorites, setFavorites] = useState<number[]>(() => {
+    const saved = localStorage.getItem("favorites");
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
+  /* Manages dark mode state and persistence */
   const [dark, setDark] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
+
+  function toggleFavorite(id: number) {
+    setFavorites((prev) =>
+      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
+    );
+  }
 
   useEffect(() => {
     const root = document.documentElement;
@@ -69,6 +87,8 @@ function App() {
               synopsis={anime.synopsis}
               imageUrl={anime.images.jpg.image_url}
               onClick={() => setSelectedAnime(anime)}
+              isFavorite={favorites.includes(anime.mal_id)}
+              onToggleFavorite={() => toggleFavorite(anime.mal_id)}
             />
           ))}
         </div>

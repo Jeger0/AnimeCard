@@ -3,12 +3,14 @@ type AnimeCardsProps = {
   synopsis: string;
   imageUrl: string;
   onClick: () => void;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 };
 
 function AnimeCard(props: AnimeCardsProps) {
   return (
     <div
-      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer dark:bg-gray-800 dark:text-white"
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer dark:bg-gray-800 dark:text-white relative"
       onClick={props.onClick}
     >
       <img
@@ -21,6 +23,16 @@ function AnimeCard(props: AnimeCardsProps) {
         <h2 className="text-lg font-semibold mb-2">{props.title}</h2>
         <p className="text-sm line-clamp-3">{props.synopsis}</p>
       </div>
+
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          props.onToggleFavorite();
+        }}
+        className="absolute top-2 right-2 text-xl"
+      >
+        {props.isFavorite ? "❤️" : "🤍"}
+      </button>
     </div>
   );
 }
