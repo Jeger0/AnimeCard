@@ -31,16 +31,24 @@ function App() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
-  /* Manages dark mode state and persistence */
-  const [dark, setDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
   function toggleFavorite(id: number) {
     setFavorites((prev) =>
       prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
     );
   }
+
+  /* Manages favorite filter state */
+
+  const [showFavorites, setShowFavorites] = useState(false);
+
+  const displayedAnime = showFavorites
+    ? animeList.filter((anime) => favorites.includes(anime.mal_id))
+    : animeList;
+
+  /* Manages dark mode state and persistence */
+  const [dark, setDark] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
 
   useEffect(() => {
     const root = document.documentElement;
@@ -76,6 +84,15 @@ function App() {
       <h1 className="text-3xl font-bold mb-4 text-center dark:text-white">
         Anime Cards
       </h1>
+      <button
+        onClick={() => setShowFavorites((prev) => !prev)}
+        className="mt-2 px-4 py-2 rounded
+          bg-gray-900 text-white hover:bg-gray-700
+          dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300"
+      >
+        {showFavorites ? "Show All" : "Show Favorites"}
+      </button>
+
       <ThemeToggle dark={dark} onToggle={() => setDark(!dark)} />
 
       {error && <p>{error}</p>}
@@ -84,7 +101,7 @@ function App() {
         <p>Loading...</p>
       ) : (
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {animeList.map((anime) => (
+          {displayedAnime.map((anime) => (
             <AnimeCard
               key={anime.mal_id}
               title={anime.title}
