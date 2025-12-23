@@ -73,6 +73,9 @@ function App() {
   /* Returns error, loading or the cards if the data has been fetched*/
   return (
     <div className="p-4 bg-white dark:bg-gray-800 transition">
+      <h1 className="text-3xl font-bold mb-4 text-center dark:text-white">
+        Anime Cards
+      </h1>
       <ThemeToggle dark={dark} onToggle={() => setDark(!dark)} />
 
       {error && <p>{error}</p>}
