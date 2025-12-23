@@ -17,7 +17,7 @@ function AnimeCard({
 }: AnimeCardsProps) {
   return (
     <div
-      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer dark:bg-gray-800 dark:text-white rela"
+      className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer dark:bg-gray-800 dark:text-white relative"
       onClick={onClick}
     >
       <img src={imageUrl} alt={title} className="w-full h-48 object-cover" />
