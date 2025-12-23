@@ -1,5 +1,6 @@
 import AnimeCard from "./assets/components/AnimeCard";
 import ThemeToggle from "./assets/components/ThemeToggle";
+import Modal from "./assets/components/Modal";
 import { useState, useEffect } from "react";
 
 type Anime = {
@@ -94,28 +95,28 @@ function App() {
         </div>
       )}
       {selectedAnime && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 ">
-          <div className="bg-white rounded-xl max-w-lg w-full overflow-hidden dark:bg-gray-800 dark:text-white">
-            <img
-              src={selectedAnime.images.jpg.image_url}
-              alt={selectedAnime.title}
-              className="w-full h-64 object-cover"
-            />
+        <Modal onClose={() => setSelectedAnime(null)}>
+          <img
+            src={selectedAnime.images.jpg.image_url}
+            alt={selectedAnime.title}
+            className="w-full h-64 object-cover"
+          />
 
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-2">{selectedAnime.title}</h2>
+          <div className="p-4">
+            <h2 className="text-xl font-bold mb-2">{selectedAnime.title}</h2>
 
-              <p className="text-sm mb-4">{selectedAnime.synopsis}</p>
+            <p className="text-sm mb-4">{selectedAnime.synopsis}</p>
 
-              <button
-                onClick={() => setSelectedAnime(null)}
-                className="mt-2 px-4 py-2 bg-black text-white rounded hover:bg-white"
-              >
-                Close
-              </button>
-            </div>
+            <button
+              onClick={() => setSelectedAnime(null)}
+              className="mt-2 px-4 py-2 rounded
+          bg-gray-900 text-white hover:bg-gray-700
+          dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300"
+            >
+              Close
+            </button>
           </div>
-        </div>
+        </Modal>
       )}
     </div>
   );
