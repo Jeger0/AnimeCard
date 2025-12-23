@@ -21,6 +21,8 @@ function App() {
   const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
+  const [page, setPage] = useState(1);
+
   /* Manages favorite anime IDs and persistence */
   const [favorites, setFavorites] = useState<number[]>(() => {
     const saved = localStorage.getItem("favorites");
@@ -66,7 +68,13 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("https://api.jikan.moe/v4/anime?limit=9");
+        const response = await fetch(
+          `https://api.jikan.moe/v4/anime?page=${page}&limit=9`
+        );
+
+        if (!response.ok) {
+          throw new Error("API ERROR");
+        }
         const data = await response.json();
         setAnimeList(data.data);
       } catch (error) {
@@ -76,7 +84,14 @@ function App() {
       }
     }
     fetchData();
-  }, []);
+  }, [page]);
+
+  function decrement() {
+    setPage(page - 1);
+  }
+  function increment() {
+    setPage(page + 1);
+  }
 
   /* Returns error, loading or the cards if the data has been fetched*/
   return (
@@ -138,6 +153,23 @@ function App() {
           </div>
         </Modal>
       )}
+      <div className="flex justify-center gap-4 my-6">
+        <button
+          disabled={page === 1 ? true : false}
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700"
+          onClick={decrement}
+        >
+          Prev
+        </button>
+
+        <button
+          disabled={page === 20 ? true : false}
+          className="px-4 py-2 rounded bg-gray-200 dark:bg-gray-700"
+          onClick={increment}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
