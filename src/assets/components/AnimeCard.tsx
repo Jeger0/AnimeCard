@@ -20,7 +20,7 @@ function AnimeCard({
       className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition cursor-pointer dark:bg-gray-800 dark:text-white relative"
       onClick={onClick}
     >
-      <img src={imageUrl} alt={title} className="w-full h-48 object-cover" />
+      <img src={imageUrl} alt={title} className="w-full h-80 object-cover" />
 
       <div className="p-4">
         <h2 className="text-lg font-semibold mb-2">{title}</h2>
