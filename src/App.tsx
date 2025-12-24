@@ -3,25 +3,13 @@ import ThemeToggle from "./assets/components/ThemeToggle";
 import Modal from "./assets/components/Modal";
 import { useState, useEffect } from "react";
 
-type Anime = {
-  mal_id: number;
-  title: string;
-  synopsis: string;
-  images: {
-    jpg: {
-      image_url: string;
-    };
-  };
-};
+import type { Anime } from "./assets/types/anime";
+import { useAnime } from "./assets/hooks/useAnime";
 
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { animeList, page, setPage, loading, error } = useAnime();
 
-  const [animeList, setAnimeList] = useState<Anime[]>([]);
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
-
-  const [page, setPage] = useState(1);
 
   /* Manages favorite anime IDs and persistence */
   const [favorites, setFavorites] = useState<number[]>(() => {
@@ -63,28 +51,6 @@ function App() {
       localStorage.setItem("theme", "light");
     }
   }, [dark]);
-
-  /* Fetches data from the API */
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(
-          `https://api.jikan.moe/v4/anime?page=${page}&limit=9`
-        );
-
-        if (!response.ok) {
-          throw new Error("API ERROR");
-        }
-        const data = await response.json();
-        setAnimeList(data.data);
-      } catch (error) {
-        setError("Failed to fetch data.");
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [page]);
 
   function decrement() {
     setPage(page - 1);
