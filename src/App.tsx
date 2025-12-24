@@ -5,9 +5,11 @@ import { useState, useEffect } from "react";
 
 import type { Anime } from "./assets/types/anime";
 import { useAnime } from "./assets/hooks/useAnime";
+import { useTheme } from "./assets/hooks/useTheme";
 
 function App() {
   const { animeList, page, setPage, loading, error } = useAnime();
+  const { dark, toggle } = useTheme();
 
   const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
@@ -35,23 +37,6 @@ function App() {
     ? animeList.filter((anime) => favorites.includes(anime.mal_id))
     : animeList;
 
-  /* Manages dark mode state and persistence */
-  const [dark, setDark] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-
-    if (dark) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [dark]);
-
   function decrement() {
     setPage(page - 1);
   }
@@ -76,7 +61,7 @@ function App() {
             {showFavorites ? "Show All" : "Show Favorites"}
           </button>
 
-          <ThemeToggle dark={dark} onToggle={() => setDark(!dark)} />
+          <ThemeToggle dark={dark} onToggle={toggle} />
         </div>
 
         {error && <p>{error}</p>}
