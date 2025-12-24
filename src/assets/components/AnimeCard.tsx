@@ -1,11 +1,4 @@
-type AnimeCardsProps = {
-  title: string;
-  synopsis: string;
-  imageUrl: string;
-  onClick: () => void;
-  isFavorite: boolean;
-  onToggleFavorite: () => void;
-};
+import type { AnimeCardsProps } from "../types/animeCardProps";
 
 function AnimeCard({
   title,
