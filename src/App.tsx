@@ -6,45 +6,20 @@ import { useState, useEffect } from "react";
 import type { Anime } from "./assets/types/anime";
 import { useAnime } from "./assets/hooks/useAnime";
 import { useTheme } from "./assets/hooks/useTheme";
+import { useFavorites } from "./assets/hooks/useFavorites";
 
 function App() {
   const { animeList, page, setPage, loading, error } = useAnime();
   const { dark, toggle } = useTheme();
-
-  const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
-
-  /* Manages favorite anime IDs and persistence */
-  const [favorites, setFavorites] = useState<number[]>(() => {
-    const saved = localStorage.getItem("favorites");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
-  function toggleFavorite(id: number) {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((favId) => favId !== id) : [...prev, id]
-    );
-  }
-
-  /* Manages favorite filter state */
+  const { favorites, toggleFavorite } = useFavorites();
 
   const [showFavorites, setShowFavorites] = useState(false);
+  const [selectedAnime, setSelectedAnime] = useState<Anime | null>(null);
 
   const displayedAnime = showFavorites
     ? animeList.filter((anime) => favorites.includes(anime.mal_id))
     : animeList;
 
-  function decrement() {
-    setPage(page - 1);
-  }
-  function increment() {
-    setPage(page + 1);
-  }
-
-  /* Returns error, loading or the cards if the data has been fetched*/
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 transition">
       <div className="max-w-7xl mx-auto p-6">
@@ -113,7 +88,7 @@ function App() {
             className="px-4 py-2 rounded
           bg-gray-900 text-white hover:bg-gray-700
           dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300"
-            onClick={decrement}
+            onClick={() => setPage((p) => p - 1)}
           >
             Prev
           </button>
@@ -124,7 +99,7 @@ function App() {
 px-4 py-2 rounded
           bg-gray-900 text-white hover:bg-gray-700
           dark:bg-gray-200 dark:text-black dark:hover:bg-gray-300"
-            onClick={increment}
+            onClick={() => setPage((p) => p + 1)}
           >
             Next
           </button>
