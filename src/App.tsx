@@ -1,7 +1,6 @@
 import AnimeCard from "./assets/components/AnimeCard";
 import ThemeToggle from "./assets/components/ThemeToggle";
 import Modal from "./assets/components/Modal";
-import { useState, useEffect } from "react";
 
 import type { Anime } from "./assets/types/anime";
 import { useAnime } from "./assets/hooks/useAnime";
